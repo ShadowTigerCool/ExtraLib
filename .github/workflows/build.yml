@@ -22,7 +22,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build Mod
-        run: ./gradlew build
+        run: ./gradlew build reobfJar --stacktrace
 
       - name: List Build Files (debug)
         run: ls -R build
@@ -31,4 +31,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: mod-jar
-          path: build/libs/*.jar
+          path: build/**/*.jar
