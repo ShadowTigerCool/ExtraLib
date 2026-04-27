@@ -21,14 +21,20 @@ jobs:
       - name: Make Gradle Executable
         run: chmod +x gradlew
 
-      - name: Build
-        run: ./gradlew build --stacktrace
+      - name: Build + Collect Jars
+        run: ./gradlew build versionedRelease --stacktrace
 
-      - name: List Build Files (debug)
-        run: ls -R build
+      - name: Debug Output (optional but useful)
+        run: |
+          echo "=== ROOT BUILD ==="
+          ls -R build || true
+          echo "=== SUBPROJECT BUILDS ==="
+          find . -type d -name libs -print -exec ls -l {} \;
+          echo "=== RELEASE FOLDER ==="
+          ls -R release || true
 
       - name: Upload Jar Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: jar
-          path: build/**/*.jar
+          name: jars
+          path: release/*.jar
